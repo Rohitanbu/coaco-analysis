@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+python-multipart
+Pillow
+scikit-learn
+numpy
+joblib
+scipy
+nptdms
+torch
+torchvision
+pytest
+httpx

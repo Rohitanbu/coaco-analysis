@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 36" fill="none" role="img" aria-label="Cocoa">
+  <defs>
+    <linearGradient id="podGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8585"/>
+      <stop offset="100%" stop-color="#FF6B6B"/>
+    </linearGradient>
+  </defs>
+  <!-- Cocoa pod icon -->
+  <ellipse cx="18" cy="18" rx="11" ry="14" fill="url(#podGrad)"/>
+  <path d="M18 5 C14 5 12 10 12 18 C12 26 14 31 18 31 C22 31 24 26 24 18 C24 10 22 5 18 5 Z" stroke="#FFD4D4" stroke-width="1.2" fill="none" opacity="0.5"/>
+  <path d="M18 8 C18 8 16 14 18 20 C20 14 18 8 18 8 Z" fill="#1E1E24" opacity="0.25"/>
+  <!-- Wordmark -->
+  <text x="38" y="24" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="20" font-weight="800" fill="#EEEEF0" letter-spacing="-0.04em">Cocoa</text>
+</svg>

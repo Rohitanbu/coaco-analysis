@@ -1,0 +1,9 @@
+Device: cuda
+Paired thermal images with acoustic metrics: 200
+Train images=160 Test images=40
+embeddings:   0%|          | 0/5 [00:00<?, ?it/s]embeddings:  20%|██        | 1/5 [00:01<00:05,  1.43s/it]embeddings:  60%|██████    | 3/5 [00:01<00:00,  2.28it/s]embeddings: 100%|██████████| 5/5 [00:01<00:00,  3.91it/s]embeddings: 100%|██████████| 5/5 [00:01<00:00,  2.76it/s]
+embeddings:   0%|          | 0/2 [00:00<?, ?it/s]embeddings:  50%|█████     | 1/2 [00:00<00:00,  2.68it/s]embeddings: 100%|██████████| 2/2 [00:00<00:00,  4.56it/s]embeddings: 100%|██████████| 2/2 [00:00<00:00,  3.87it/s]
+amplitude: MAE=0.008520  MAPE=11.6%  R2=-0.129
+frequency: MAE=24.477967  MAPE=28.6%  R2=0.093
+power: MAE=0.001179  MAPE=22.5%  R2=-0.109
+Saved /home/kaito/Desktop/Coaco analysis/webapp/outputs/metrics_regressor.joblib

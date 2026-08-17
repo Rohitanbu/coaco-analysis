@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results — Cocoa Ripeness Analyser</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="templatemo-quantix-style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">
+                <img src="cocoa-logo.svg?v=2" alt="Cocoa" class="brand-logo" width="140" height="36">
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="how-it-works.html">How It Works</a></li>
+                <li><a href="analyser.html" class="active">Analyser</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span class="bc-sep">/</span>
+                <span>Analysis Results</span>
+            </div>
+            <p class="section-label">Analyser</p>
+            <h1 class="section-title">Cocoa Pod Analysis</h1>
+            <p class="section-desc">Acoustic waveform, thermal reference, extracted features, and SVM ripeness prediction.</p>
+        </div>
+    </section>
+
+    <!-- UPLOAD -->
+    <section class="analyser-upload-section">
+        <div class="container">
+            <div class="analyser-card glass-panel fade-up">
+                <div class="analyser-card-header">
+                    <span class="analyser-card-title">Upload Batch Samples</span>
+                </div>
+                <div class="analyser-card-body">
+                    <form id="uploadForm" class="upload-form">
+                        <div id="batchSamplesContainer" style="display:flex; flex-direction:column; gap:16px; margin-bottom: 24px;">
+                            <!-- Populated by JS -->
+                        </div>
+                        <div class="batch-actions" style="display:flex; gap:16px; align-items:center;">
+                            <button type="button" class="btn btn-secondary" id="addSampleBtn">+ Add Sample</button>
+                            <button type="submit" class="btn btn-primary btn-lg" id="analyseBtn">Run Batch Analysis</button>
+                        </div>
+                        <p class="upload-status" id="uploadStatus" hidden></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ANALYSER CONTENT -->
+    <section class="analyser-section" id="resultsSection" hidden>
+        <div class="container" id="resultsContainer">
+            <!-- Result blocks injected here by JS -->
+        </div>
+    </section>
+
+    <!-- SUMMARY SECTION -->
+    <section class="analyser-section" id="summarySection" hidden style="margin-bottom: 60px;">
+        <div class="container">
+            <div class="analyser-card glass-panel fade-up">
+                <div class="analyser-card-header">
+                    <span class="analyser-card-title">Analysis Summary</span>
+                </div>
+                <div class="analyser-card-body" style="padding:0; overflow-x:auto;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border-subtle);">
+                                <th style="padding: 16px;">Sample</th>
+                                <th style="padding: 16px;">Prediction</th>
+                                <th style="padding: 16px;">Confidence</th>
+                                <th style="padding: 16px;">Amplitude</th>
+                                <th style="padding: 16px;">RMS</th>
+                                <th style="padding: 16px;">Power</th>
+                                <th style="padding: 16px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="summaryTableBody" class="mono" style="color:var(--text-secondary);">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEMPLATE FOR RESULT BLOCK -->
+    <template id="resultBlockTemplate">
+        <div class="result-block-wrapper" style="margin-bottom: 60px; padding-top: 40px; border-top: 1px solid var(--border-subtle);">
+            <h3 class="sample-heading" style="margin-bottom: 24px; font-weight: 700; font-size: 20px;">Sample 1</h3>
+            
+            <!-- Waveform + Thermal Image -->
+            <div class="analyser-grid fade-up">
+                <div class="analyser-card glass-panel">
+                    <div class="analyser-card-header">
+                        <span class="analyser-card-title">Acoustic Waveform</span>
+                        <span class="mono" style="font-size:11px;color:var(--text-muted);">Voltage vs. Sample</span>
+                    </div>
+                    <div class="analyser-card-body" style="padding: 24px;">
+                        <div class="waveform-wrap" style="position: relative; border-radius: var(--radius-md); overflow: hidden; background: var(--bg-surface); padding: 16px;">
+                            <canvas class="waveform-canvas" aria-label="Acoustic waveform visualization" style="width: 100%; height: 120px; display: block;"></canvas>
+                        </div>
+                        <p class="waveform-axis-label" style="margin-top: 12px; text-align: center; font-size: 11px; color: var(--text-muted);">Sample number → &nbsp;|&nbsp; Amplitude (V)</p>
+
+                        <div class="sound-generation-wrap" style="margin-top: 24px; padding: 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);">
+                            <div class="waveform-controls" style="position: static; display: flex; align-items: center; gap: 16px; background: transparent; padding: 0;">
+                                <button class="waveform-play-btn playBtn" type="button" aria-label="Play or pause audio" style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; flex-shrink: 0; box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.3);">
+                                    <svg class="play-icon" width="20" height="20" viewBox="0 0 24 24" fill="#fff" style="margin-left: 2px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                    <svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24" fill="#fff" style="display:none;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                                </button>
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <span style="font-size: 13px; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.5px;">Generated Sound</span>
+                                        <span class="waveform-time timeEl" style="font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary);">0:00 / 0:00</span>
+                                    </div>
+                                    <div class="waveform-progress progressEl" style="height: 6px; background: var(--border-subtle); border-radius: 3px; cursor: pointer; position: relative; overflow: hidden;">
+                                        <div class="waveform-progress-fill progressFill" style="height: 100%; background: var(--accent); border-radius: 3px; width: 0%; transition: width 0.1s linear;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analyser-card glass-panel">
+                    <div class="analyser-card-header">
+                        <span class="analyser-card-title">Thermal Image</span>
+                        <span class="mono" style="font-size:11px;color:var(--text-muted);">Reference</span>
+                    </div>
+                    <div class="analyser-card-body">
+                        <div class="thermal-image-wrap thermalImageWrap">
+                            <img class="thermalImage" src="" alt="Uploaded thermal cocoa pod image" hidden>
+                            <div class="thermal-placeholder thermalPlaceholder">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                <p>Thermal pod scan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prediction + Other Possibilities -->
+            <div class="prediction-panel glass-panel fade-up" style="display: flex; flex-direction: column; gap: 24px; padding: 32px;">
+                <div class="prediction-header" style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+                    <div class="prediction-primary" style="flex: 1;">
+                        <p class="prediction-eyebrow" style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 8px;">Predicted Ripeness</p>
+                        <div class="prediction-label predictedLabel" style="font-size: 48px; font-weight: 800; line-height: 1.1; margin: 0; color: var(--text-primary); letter-spacing: -1px;">—</div>
+                        <div style="display: flex; align-items: center; gap: 12px; margin-top: 12px;">
+                            <div class="prediction-confidence confidenceValue" style="font-size: 24px; font-weight: 600; font-family: var(--font-mono); color: var(--accent);">—</div>
+                            <p class="prediction-confidence-sub" style="margin:0; font-size: 14px; color: var(--text-muted); font-weight: 500;">Model confidence</p>
+                        </div>
+                    </div>
+                    <div class="mock-data-badge dataSourceBadge" hidden style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(var(--accent-rgb), 0.1); border-radius: 20px; border: 1px solid rgba(var(--accent-rgb), 0.2);">
+                        <span class="badge-dot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent);"></span>
+                        <span class="dataSourceText" style="font-size: 12px; font-weight: 600; color: var(--accent);">Live API result</span>
+                    </div>
+                </div>
+
+                <div class="other-possibilities otherPossibilities hidden" style="border-top: 1px solid var(--border-subtle); padding-top: 24px; margin-top: 8px;">
+                    <h4 style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 20px; font-weight: 700;">Other Possibilities (< 85% Confidence)</h4>
+                    <div class="possibilitiesList" style="display: flex; flex-direction: column; gap: 16px;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extracted Features -->
+            <div class="analyser-card glass-panel fade-up" style="margin-top:20px;">
+                <div class="analyser-card-header">
+                    <span class="analyser-card-title">Extracted Features</span>
+                </div>
+                <div class="analyser-card-body">
+                    <div class="features-metrics-grid featuresGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-row-links">
+                <a href="how-it-works.html">How It Works</a>
+                <span class="footer-link-dot"></span>
+                <a href="analyser.html">Analyser</a>
+            </div>
+            <div class="footer-row-bottom">
+                <p class="footer-copy">Copyright &copy; 2026 Cocoa. Design: <a href="https://templatemo.com" target="_blank" rel="nofollow">TemplateMo</a></p>
+                <div class="footer-right">
+                    <div class="footer-legal">
+                        <a href="#" onclick="return false;">Privacy</a>
+                        <a href="#" onclick="return false;">Terms</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="templatemo-quantix-script.js?v=2"></script>
+    <script src="templatemo-quantix-analyser.js?v=2"></script>
+
+</body>
+</html>

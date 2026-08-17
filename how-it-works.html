@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - Cocoa Ripeness Analyser</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="templatemo-quantix-style.css">
+    <style>
+        .page-header {
+            padding: 160px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 500px;
+            background: radial-gradient(circle at center,
+                rgba(255, 107, 107, 0.10) 0%,
+                rgba(255, 107, 107, 0.03) 35%,
+                transparent 55%);
+            pointer-events: none;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse at 50% 40%, black 20%, transparent 65%);
+            -webkit-mask-image: radial-gradient(ellipse at 50% 40%, black 20%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .page-header > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header .section-desc {
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .breadcrumb a {
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--text-primary);
+        }
+
+        .breadcrumb .bc-sep {
+            opacity: 0.4;
+        }
+        
+        .how-it-works-page {
+            padding: 0 0 120px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">
+                <img src="cocoa-logo.svg?v=2" alt="Cocoa" class="brand-logo" width="140" height="36">
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="how-it-works.html" class="active">How It Works</a></li>
+                <li><a href="analyser.html">Analyser</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span class="bc-sep">/</span>
+                <span>How It Works</span>
+            </div>
+            <p class="section-label">Workflow</p>
+            <h1 class="section-title">From upload to prediction<br>in four steps</h1>
+            <p class="section-desc">Combine thermal imaging and acoustic tapping for accurate cocoa pod ripeness classification.</p>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works-page">
+        <div class="container">
+            <div class="steps-grid">
+                <div class="step-card fade-up">
+                    <div class="step-number">01</div>
+                    <div class="feat-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    </div>
+                    <h3>Upload Inputs</h3>
+                    <p>Submit a thermal image of the cocoa pod alongside its acoustic tap recording (CSV waveform).</p>
+                </div>
+                <div class="step-card fade-up">
+                    <div class="step-number">02</div>
+                    <div class="feat-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                    </div>
+                    <h3>Extract Features</h3>
+                    <p>The system computes amplitude, RMS, power, frequency, and mel-spectrogram features from the acoustic signal.</p>
+                </div>
+                <div class="step-card fade-up">
+                    <div class="step-number">03</div>
+                    <div class="feat-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    </div>
+                    <h3>SVM Prediction</h3>
+                    <p>A trained SVM classifier fuses thermal and acoustic embeddings to predict ripeness class with a confidence score.</p>
+                </div>
+                <div class="step-card fade-up">
+                    <div class="step-number">04</div>
+                    <div class="feat-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <h3>View Results</h3>
+                    <p>Inspect the predicted label, confidence percentage, extracted features, and interactive waveform visualization.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 60px;" class="fade-up">
+                <a href="analyser.html" class="btn btn-primary btn-lg">Try the Analyser &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-row-links">
+                <a href="how-it-works.html">How It Works</a>
+                <span class="footer-link-dot"></span>
+                <a href="analyser.html">Analyser</a>
+            </div>
+            <div class="footer-row-bottom">
+                <p class="footer-copy">Copyright &copy; 2026 Cocoa. Design: <a href="https://templatemo.com" target="_blank" rel="nofollow">TemplateMo</a></p>
+                <div class="footer-right">
+                    <div class="footer-legal">
+                        <a href="#" onclick="return false;">Privacy</a>
+                        <a href="#" onclick="return false;">Terms</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="templatemo-quantix-script.js"></script>
+
+</body>
+</html>
